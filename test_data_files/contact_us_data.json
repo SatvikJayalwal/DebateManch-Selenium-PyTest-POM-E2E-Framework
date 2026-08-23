@@ -1,0 +1,16 @@
+[
+    {
+        "name": "Satvik Jayalwal",
+        "email": "mytest@gmail.com",
+        "subject": "Test Message",
+        "message": "This is a test message and should type everything correctly",
+        "expected_success": true
+    },
+    {
+        "name": "Satvik Jayalwal",
+        "email": "wrong_email_format",
+        "subject": "Test Message",
+        "message": "This is a test message to check invalid email validation",
+        "expected_success" : false
+    }
+]

@@ -1,0 +1,50 @@
+1. HOME
+
+1.1 The "add topic" should be on the top of the debates not in the bottom.
+1.2 When I write VS in capital it should say write VS in small letter or it should not be case sensitive.
+1.3 When I successfully add a topic it should show in the top of the list.
+1.4 When I add a topic then its debate should directly open.
+
+
+2. DASHBOARD
+2.1 After I login into my account my account profile photo is not shown properly.
+
+
+3. DEBATE
+3.1 When the page loads it is already scrolled a little.
+3.2 When I like a message its number goes from 0 to 1 then I click it again and it goes from 1 to 0 but when I am liking a reply message it is going from 0 to 1 and if I click it again it goes from 1 to 2 not 0.
+3.3 When i add something in add a photo in a add new question segment then this still says no file chosen, it should then say add more file.
+
+
+4. GUIDELINES
+4.1 The breadcrumb "Home > Guidelines" does not work.
+4.2 There is mix of languages Hindi and English, either it should be even or there should be a button for translation.
+4.3 There is indentation issue in longer lines.
+
+
+5. FAQ
+5.1 The breadcrumb "Home > FAQ" not working.
+
+6. PRIVACY POLICY 
+6.1 There is no breadcrumb in this page.
+
+7. CONTACT US
+7.1 The breadcrumb "Home > Contact Us" not working.
+7.2 Clicking on the hyperlink "debateManch@gmail.com" just opens a new empty tab in chrome. It should copy the mail.
+7.3 The Name text box should not take special characters
+7.4 There should be word limit to all the input boxes as there requirements.
+7.5 When I enter name click enter it goes to email but when I enter email and click enter the cursor goes to message box and not subject box.
+7.6 Except email the input boxes accepts spaces for every input.
+7.7 Subject input box should not be optional make it compulsory.
+
+8. ADMIN DASHBOARD - DEBATES
+8.1 When I edit/delete anything the message of "topic updated/deleted successfully" show very late.
+
+
+
+9. ADMIN DASHBOARD - QUESTIONS
+9.1 The questions does not show the person has types in who's support.
+
+10. ADMIN DASHBOARD - ANALYTICS
+10.1 The numbering of questions are not correct.
+
