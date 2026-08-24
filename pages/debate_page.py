@@ -54,6 +54,17 @@ class DebatePage(BasePage):
         # Used f-string to inject the exact question text into the XPath
         dynamic_question_path = (By.XPATH, f"//div[@data-testid='board-full']//*[contains(text(), '{specific_question_text}')]")
         
-        return self.find_element(dynamic_question_path).is_displayed()
+        return self.find_element(dynamic_question_path).is_displayed()  
 
-    
+    def verify_question_attachments(self,specific_question_text,expected_tag,expected_file,expected_url_fragment):
+
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+
+        tag_xpath = (By.XPATH,f"{base_card}//*[contains(text(),'{expected_tag}')]")
+        file_xpath = (By.XPATH,f"{base_card}//*[contains(text(),'{expected_file}')]")
+        url_xpath = (By.XPATH, f"{base_card}//*[contains(@href,'{expected_url_fragment}') or contains(text(), '{expected_url_fragment}')]")
+        is_tag_displayed = self.find_element(tag_xpath).is_displayed()
+        is_file_displayed = self.find_element(file_xpath).is_displayed()
+        is_url_displayed = self.find_element(url_xpath).is_displayed()
+
+        return is_tag_displayed and is_file_displayed and is_url_displayed

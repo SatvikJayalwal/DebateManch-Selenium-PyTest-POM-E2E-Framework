@@ -14,7 +14,7 @@ def test_adding_new_debate_question(driver):
     project_root = os.getcwd()
     evidence_file_path = os.path.join(project_root,"test_data_files","software_testing_importance_evidence.jpg")
 
-    url_evidence = "https://www.geeksforgeeks.org/software-testing/why-software-testing-is-important/"
+    expected_url_fragment = "geeksforgeeks.org/software-testing"
     
     print("\nVERIFYING USER LOGIN")
     home_page.login_through_local_storage_with_javascript_and_refresh()
@@ -52,7 +52,7 @@ def test_adding_new_debate_question(driver):
     print("\nFILE VERIFIED SUCCESSFULLY")
 
     print("\nPASTING URL EVIDENCE")
-    debate_page.paste_url_evidence(url_evidence)
+    debate_page.paste_url_evidence(expected_url_fragment)
 
     print("\nCLICKING ADD URL BUTTON")
     debate_page.click_add_url_btn()
@@ -62,8 +62,11 @@ def test_adding_new_debate_question(driver):
 
     print("\nVERIFYING THE QUESTION IS ADDED TO THE BOARD")
     assert debate_page.is_posted_question_displayed(expected_question), f"\nFAILED: QUESTION NOT FOUND ON BOARD - {expected_question}"
-    print("\nQUESTION SUCCESSFULLY DISPLAYED ON THE BOARD")
+    print("\nQUESTION SUCCESSFULLY DISPLAYED ON THE BOARD")    
 
-   
-    
-    
+    print("\nVERIFYING QUESTION ATTACHMENTS (TAG, FILE, URL) ON THE BOARD")
+    expected_tag = "Testing_is_important"
+    expected_file_name = "software_testing_importance_evidence.jpg"
+
+    assert debate_page.verify_question_attachments(expected_question,expected_tag,expected_file_name,expected_url_fragment), "\nFAILED: ATTACHMENTS NOT FOUND WITH SPECIFIC QUESTION CARD"
+    print("\nQUESTION ATTACHMENTS (TAG, FILE, URL) SUCCESSFULLY VERIFIED ON THE BOARD")
