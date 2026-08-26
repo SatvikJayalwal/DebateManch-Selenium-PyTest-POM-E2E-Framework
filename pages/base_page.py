@@ -25,6 +25,13 @@ class BasePage():
         element_to_enter = self.find_element(locator)
         element_to_enter.send_keys(Keys.ENTER)
 
+    def scroll_to_element(self,locator):
+        element_to_be_scrolled_to = self.wait.until(EC.presence_of_element_located(locator))
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'})",element_to_be_scrolled_to)
+
+
+
+
         
 
     

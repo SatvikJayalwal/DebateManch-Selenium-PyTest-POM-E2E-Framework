@@ -68,3 +68,21 @@ class DebatePage(BasePage):
         is_url_displayed = self.find_element(url_xpath).is_displayed()
 
         return is_tag_displayed and is_file_displayed and is_url_displayed
+
+    def click_edit_btn(self,specific_question_text):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        edit_btn_xpath = (By.XPATH,f"{base_card}//button[contains(text(),'Edit')]")
+        self.scroll_to_element(edit_btn_xpath)
+        self.click_element(edit_btn_xpath)
+
+    def edit_question_text(self,specific_question_text,append_text_to_edit):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        question_edit_textarea_path = (By.XPATH,f"{base_card}//div[@contenteditable='true' and contains(@data-testid,'card-edit-textarea')]")
+
+        edit_question_box = self.find_element(question_edit_textarea_path)
+        edit_question_box.send_keys(append_text_to_edit)
+
+    def click_save_btn(self,specific_question_text):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        save_btn = (By.XPATH,f"{base_card}//ancestor::div[@data-testid[contains(.,'card')]]//button[contains(text(),'Save')]")
+        self.click_element(save_btn)
