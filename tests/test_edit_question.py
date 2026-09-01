@@ -1,14 +1,14 @@
 from pages.debate_page import DebatePage
 from pages.home_page import HomePage
 import os
-import time
+from datetime import datetime
 
 def test_adding_new_debate_question(driver):
 
     debate_page = DebatePage(driver)
     home_page = HomePage(driver)
 
-    unique_id = str(int(time.time())) 
+    unique_id = datetime.now().strftime("%I:%M:%S:%p") 
     expected_question = f"Do you think developing is more important? {unique_id}"
     edited_question = "- EDITED VIA AUTOMATION"
 
