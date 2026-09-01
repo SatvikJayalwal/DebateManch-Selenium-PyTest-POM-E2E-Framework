@@ -86,6 +86,7 @@ class DebatePage(BasePage):
         base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
         save_btn = (By.XPATH,f"{base_card}//ancestor::div[@data-testid[contains(.,'card')]]//button[contains(text(),'Save')]")
         self.click_element(save_btn)
+        self.wait.until(EC.invisibility_of_element_located(save_btn))
 
     def click_reply_btn(self,specific_question_text):
         base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
