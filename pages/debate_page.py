@@ -86,3 +86,53 @@ class DebatePage(BasePage):
         base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
         save_btn = (By.XPATH,f"{base_card}//ancestor::div[@data-testid[contains(.,'card')]]//button[contains(text(),'Save')]")
         self.click_element(save_btn)
+
+    def click_reply_btn(self,specific_question_text):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        reply_btn = (By.XPATH,f"{base_card}//button[contains(@data-testid,'card-reply-button')]")
+        self.scroll_to_element(reply_btn)
+        self.click_element(reply_btn)
+
+    def type_reply_text(self,specific_question_text,reply_text):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        reply_box = (By.XPATH,f"{base_card}//div[@contenteditable='true' and contains(@data-testid,'reply-textarea')]")
+        reply_element = self.find_element(reply_box)
+        reply_element.send_keys(reply_text)
+
+    def upload_reply_file(self,specific_question_text,reply_file_to_upload):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        upload_reply_input = (By.XPATH,f"{base_card}//input[contains(@data-testid,'reply-file-input')]")
+        reply_upload_file_element = self.send_keys_element(upload_reply_input,reply_file_to_upload)
+
+    def add_reply_url(self,specific_question_text,reply_url_to_paste):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        reply_url_element = (By.XPATH,f"{base_card}//input[contains(@data-testid,'reply-url-input')]")
+        add_reply_url_btn = (By.XPATH,f"{base_card}//button[contains(@data-testid,'reply-add-url')]")
+        self.send_keys_element(reply_url_element,reply_url_to_paste)
+        self.click_element(add_reply_url_btn)
+
+    def click_post_reply_btn(self,specific_question_text):
+        base_card = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+        post_reply_btn = (By.XPATH,f"{base_card}//button[contains(@data-testid,'reply-post-button')]")
+        self.scroll_to_element(post_reply_btn)
+        self.click_element(post_reply_btn)
+        self.wait.until(EC.invisibility_of_element_located(post_reply_btn))
+
+    def is_reply_posted(self,specific_question_text,expected_reply_text):
+        base_thread_row = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[contains(@class,'thread-row')]"
+        reply_text_xpath = (By.XPATH,f"{base_thread_row}//*[contains(text(),'{expected_reply_text}')]")
+        return self.find_element(reply_text_xpath).is_displayed()
+
+    def get_posted_reply_details(self,specific_question_text,expected_reply_text,expected_file,expected_url_fragment):
+        base_thread_row = f"//*[contains(text(),'{specific_question_text}')]//ancestor::div[contains(@class,'thread-row')]"
+        reply_card = f"{base_thread_row}//*[contains(text(),'{expected_reply_text}')]//ancestor::div[@data-testid[contains(.,'card')]]"
+
+        reply_text_xpath = (By.XPATH,f"{reply_card}//*[contains(text(),'{expected_reply_text}')]")
+        reply_file_xpath = (By.XPATH,f"{reply_card}//*[contains(text(),'{expected_file}')]")
+        reply_url_xpath = (By.XPATH,f"{reply_card}//*[contains(@href,'{expected_url_fragment}') or contains(text(),'{expected_url_fragment}')]")
+
+        actual_reply_text = self.find_element(reply_text_xpath).text
+        actual_reply_file = self.find_element(reply_file_xpath).text
+        actual_reply_url = self.find_element(reply_url_xpath).text
+
+        return actual_reply_text, actual_reply_file, actual_reply_url
