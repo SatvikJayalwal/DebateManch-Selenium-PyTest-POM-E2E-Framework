@@ -2,13 +2,14 @@ from pages.debate_page import DebatePage
 from pages.home_page import HomePage
 import os
 from datetime import datetime
+import logging
 
 def test_adding_new_debate_question(driver):
 
     debate_page = DebatePage(driver)
     home_page = HomePage(driver)
 
-    unique_id = datetime.now().strftime("%I:%M:%S:%p") 
+    unique_id = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p") 
     expected_question = f"Do you think developing is more important? {unique_id}"
     edited_question = "- EDITED VIA AUTOMATION"
 
@@ -17,71 +18,71 @@ def test_adding_new_debate_question(driver):
 
     expected_url_fragment = "geeksforgeeks.org/software-testing"
     
-    print("\nVERIFYING USER LOGIN")
+    logging.info("VERIFYING USER LOGIN")
     home_page.login_through_local_storage_with_javascript_and_refresh()
     
-    print("\nVERIFYING USER IS LOGGED IN")
+    logging.info("VERIFYING USER IS LOGGED IN")
     assert home_page.is_logout_button_displayed(), "\nUSER DID NOT LOGIN"    
     
-    print("\nCLIKING DEVELOPER VS TESTER DEBATE")
+    logging.info("CLIKING DEVELOPER VS TESTER DEBATE")
     debate_page.open_developer_vs_tester_debate()
 
-    print("\nVERIFYING IF THE DEBATE PAGE IS OPENED")
+    logging.info("VERIFYING IF THE DEBATE PAGE IS OPENED")
     assert debate_page.is_add_question_title_displayed(), "\nDEBATE PAGE NOT OPENED"
-    print("\nDEBATE PAGE IS SUCCESSFULLY OPENED")
+    logging.info("DEBATE PAGE IS SUCCESSFULLY OPENED")
 
-    print("\nCLICKING TESTER RADIO BUTTON")
+    logging.info("CLICKING TESTER RADIO BUTTON")
     debate_page.click_tester_radio_button()
 
-    print("\nTYPING QUESTION IN TEXTBOX")
+    logging.info("TYPING QUESTION IN TEXTBOX")
     debate_page.type_question_in_textbox(expected_question)
 
-    print("\nADDING TAG/TAGS")
+    logging.info("ADDING TAG/TAGS")
     debate_page.type_tag_in_textbox()
 
-    print("\nPRESSING ENTER TO ADD TAG")
+    logging.info("PRESSING ENTER TO ADD TAG")
     debate_page.press_enter_to_add_tag()
 
-    print("\nUPLOADING EVIDENCE FILE")
+    logging.info("UPLOADING EVIDENCE FILE")
     debate_page.upload_evidence_file(evidence_file_path)
 
-    print("\nGET UPLOADED EVIDENCE FILE NAME")
+    logging.info("GET UPLOADED EVIDENCE FILE NAME")
     evidence_file_text_after_upload = debate_page.get_uploaded_evidence_file_name()
 
-    print("\nVERIFYING THE FILE UPLOAD")
+    logging.info("VERIFYING THE FILE UPLOAD")
     assert "software_testing_importance_evidence.jpg" in evidence_file_text_after_upload, f"FILE UPLOAD FAILED, FILE NOT FOUND: {evidence_file_text_after_upload}"
-    print("\nFILE VERIFIED SUCCESSFULLY")
+    logging.info("FILE VERIFIED SUCCESSFULLY")
 
-    print("\nPASTING URL EVIDENCE")
+    logging.info("PASTING URL EVIDENCE")
     debate_page.paste_url_evidence(expected_url_fragment)
 
-    print("\nCLICKING ADD URL BUTTON")
+    logging.info("CLICKING ADD URL BUTTON")
     debate_page.click_add_url_btn()
 
-    print("\nCLICKING ADD QUESTION BUTTON")
+    logging.info("CLICKING ADD QUESTION BUTTON")
     debate_page.click_add_question_btn()
 
-    print("\nVERIFYING THE QUESTION IS ADDED TO THE BOARD")
+    logging.info("VERIFYING THE QUESTION IS ADDED TO THE BOARD")
     assert debate_page.is_posted_question_displayed(expected_question), f"\nFAILED: QUESTION NOT FOUND ON BOARD - {expected_question}"
-    print("\nQUESTION SUCCESSFULLY DISPLAYED ON THE BOARD")    
+    logging.info("QUESTION SUCCESSFULLY DISPLAYED ON THE BOARD")    
 
-    print("\nVERIFYING QUESTION ATTACHMENTS (TAG, FILE, URL) ON THE BOARD")
+    logging.info("VERIFYING QUESTION ATTACHMENTS (TAG, FILE, URL) ON THE BOARD")
     expected_tag = "Testing_is_important"
     expected_file_name = "software_testing_importance_evidence.jpg"
 
     assert debate_page.verify_question_attachments(expected_question,expected_tag,expected_file_name,expected_url_fragment), "\nFAILED: ATTACHMENTS NOT FOUND WITH SPECIFIC QUESTION CARD"
-    print("\nQUESTION ATTACHMENTS (TAG, FILE, URL) SUCCESSFULLY VERIFIED ON THE BOARD")
+    logging.info("QUESTION ATTACHMENTS (TAG, FILE, URL) SUCCESSFULLY VERIFIED ON THE BOARD")
 
-    print("\nCLICKING EDIT BUTTON")
+    logging.info("CLICKING EDIT BUTTON")
     debate_page.click_edit_btn(expected_question)
 
-    print("\nEDITING QUESTION BY APPENDING TEXT")
+    logging.info("EDITING QUESTION BY APPENDING TEXT")
     debate_page.edit_question_text(expected_question,edited_question)
 
-    print("\nCLICKING SAVE BUTTON")
+    logging.info("CLICKING SAVE BUTTON")
     debate_page.click_save_btn(expected_question)
 
-    print("\nVERIFYING EDITED TEXT IS DISPLAYED ON THE BOARD")
+    logging.info("VERIFYING EDITED TEXT IS DISPLAYED ON THE BOARD")
     final_expected_question = expected_question + edited_question
     assert debate_page.is_posted_question_displayed(final_expected_question), f"\nFAILED: EDITED TEXT NOT FOUND : {final_expected_question}"
-    print("\nEDIT SUCCESSFULLY VERIFIED ON THE BOARD")
+    logging.info("EDIT SUCCESSFULLY VERIFIED ON THE BOARD")

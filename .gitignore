@@ -3,5 +3,7 @@ __pycache__/
 allure_results/
 allure-results/
 screenshots/
+logs/
+*.log
 *.pyc
 storage.json

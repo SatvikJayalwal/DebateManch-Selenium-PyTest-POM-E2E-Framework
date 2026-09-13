@@ -7,6 +7,7 @@ import pytest
 from configparser import ConfigParser
 import os
 from datetime import datetime
+import logging
 
 chrome_options = Options()
 # chrome_options.add_argument("--headless=new")
@@ -36,8 +37,31 @@ def pytest_runtest_makereport(item,call):
         if driver:
 
             os.makedirs("screenshots",exist_ok=True)
-            timestamp = datetime.now().strftime("%H-%M-%S")
+            timestamp = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
             file_path = f"screenshots/{item.name}_{timestamp}.png"
 
             driver.save_screenshot(file_path)
-            print(f"\nSCREENSHOT SAVED AT: {file_path}")
+            logging.info(f"\nSCREENSHOT SAVED AT: {file_path}")
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_runtest_setup(item):
+    os.makedirs("logs",exist_ok=True)
+    timestamp = datetime.now().strftime("%Y-%m-%d_%I-%M-%S_%p")
+    log_file_path = f"logs/{item.name}_{timestamp}.log"
+    file_handler = logging.FileHandler(log_file_path)
+    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %I:%M:%S %p")
+    file_handler.setFormatter(formatter)
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    logger.addHandler(file_handler)
+    item.log_handler = file_handler
+
+@pytest.hookimpl(trylast=True)
+def pytest_runtest_teardown(item):
+    handler = getattr(item,"log_handler",None)
+
+    if handler:
+        logger = logging.getLogger()
+        logger.removeHandler(handler)
+        handler.close()
