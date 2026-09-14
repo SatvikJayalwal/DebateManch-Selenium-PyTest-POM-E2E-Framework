@@ -17,7 +17,8 @@ class DebatePage(BasePage):
     ADD_URL_BTN = (By.XPATH,"//button[@data-testid='new-question-add-url-button']")
     ADD_QUESTION_BTN = (By.XPATH,"//button[@data-testid='add-question-submit-button']")
 
-    def open_developer_vs_tester_debate(self):
+    def open_developer_vs_tester_debate(self):        
+        self.scroll_to_element(self.DEVELOPER_VS_TESTER_PATH)
         self.click_element(self.DEVELOPER_VS_TESTER_PATH)
 
     def is_add_question_title_displayed(self):
